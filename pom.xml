@@ -1,0 +1,2722 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<!-- $Rev$ $Date$ -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.apache.geronimo.genesis</groupId>
+        <artifactId>genesis-java6-flava</artifactId>
+        <version>2.0</version>
+    </parent>
+
+    <groupId>org.apache.geronimo</groupId>
+    <artifactId>geronimo</artifactId>
+    <name>Geronimo</name>
+    <packaging>pom</packaging>
+
+    <version>4.0.0-SNAPSHOT</version>
+
+    <description>
+        Apache Geronimo, the JavaEE server project of the Apache Software Foundation.
+    </description>
+
+    <organization>
+        <name>The Apache Geronimo development community</name>
+        <url>http://geronimo.apache.org/</url>
+    </organization>
+
+    <scm>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/geronimo/server/trunk</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/geronimo/server/trunk</developerConnection>
+        <url>http://svn.apache.org/viewvc/geronimo/server/trunk</url>
+    </scm>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- This property is required by the car:package mojo -->
+        <geronimoVersion>${project.version}</geronimoVersion>
+
+        <geronimoSchemaVersion>1.2</geronimoSchemaVersion>
+        <warnOnDependencyChange>true</warnOnDependencyChange>
+        <logDependencyChanges>true</logDependencyChanges>
+        <overwriteChangedDependencies>true</overwriteChangedDependencies>
+
+        <!--
+        FIXME: STOP using properties for dependency versions unless you absolutly need them,
+               ie. you have a hundred dependencies that all use the same version.
+        -->
+        <tomcatVersion>7.0.27.1</tomcatVersion>
+        <tomcatGroupId>org.apache.geronimo.ext.tomcat</tomcatGroupId>
+
+        <openejbVersion>4.0.0-beta-1</openejbVersion>
+        <openjpaVersion>2.1.1</openjpaVersion>
+        <openwebbeansVersion>1.1.1</openwebbeansVersion>
+        <derbyVersion>10.8.2.2_1</derbyVersion>
+        <cxfVersion>2.1.10</cxfVersion>
+        <axis2Version>1.6.1_1</axis2Version>
+        <axiomVersion>1.2.12_1</axiomVersion>
+        <springVersion>2.5.6-SEC02</springVersion>
+        <xbeanVersion>3.11</xbeanVersion>
+        <jetty>jetty8</jetty>
+        <jetty.version>8.0.0.M2</jetty.version>
+        <txmanagerVersion>3.1.1</txmanagerVersion>
+        <tranqlVersion>1.7</tranqlVersion>
+        <tranqlDerbyVersion>1.7</tranqlDerbyVersion>
+        <jaxbImplVersion>2.2.3-1_1</jaxbImplVersion>
+
+        <monitoringConsoleVersion>${project.version}</monitoringConsoleVersion>
+        <woodstoxVersion>4.1.2_1</woodstoxVersion>
+        <yokoVersion>1.3</yokoVersion>
+        <juddiv3.version>3.1.0</juddiv3.version>
+        <javamail.version>1.8.3</javamail.version>
+        <geronimoel.version>1.0.2</geronimoel.version>
+        <geronimoosgiregistry.version>1.1</geronimoosgiregistry.version>
+        <geronimojaxws.version>1.1</geronimojaxws.version>
+        <myfacesVersion>2.0.9_1</myfacesVersion>
+
+        <!-- Deployers -->
+
+        <!--<gbeanDeployer>org.apache.geronimo.framework/geronimo-gbean-deployer/${project.version}/car</gbeanDeployer>-->
+        <j2eeDeployer>org.apache.geronimo.configs/j2ee-deployer/${project.version}/car</j2eeDeployer>
+        <clientDeployer>org.apache.geronimo.configs/client-deployer/${project.version}/car</clientDeployer>
+        <connectorDeployer>org.apache.geronimo.configs/connector-deployer-1_6/${project.version}/car</connectorDeployer>
+        <openejbDeployer>org.apache.geronimo.configs/openejb-deployer/${project.version}/car</openejbDeployer>
+        <openejbcorbaDeployer>org.apache.geronimo.configs/openejb-corba-deployer/${project.version}/car</openejbcorbaDeployer>
+        <axisDeployer>org.apache.geronimo.configs/axis-deployer/${project.version}/car</axisDeployer>
+        <cxfDeployer>org.apache.geronimo.configs/cxf-deployer/${project.version}/car</cxfDeployer>
+        <axis2Deployer>org.apache.geronimo.configs/axis2-deployer/${project.version}/car</axis2Deployer>
+        <tomcatDeployer>org.apache.geronimo.configs/tomcat7-deployer/${project.version}/car</tomcatDeployer>
+        <jettyDeployer>org.apache.geronimo.configs/${jetty}-deployer/${project.version}/car</jettyDeployer>
+        <jasperDeployer>org.apache.geronimo.configs/jasper-deployer/${project.version}/car</jasperDeployer>
+        <jpaDeployer>org.apache.geronimo.configs/persistence-jpa20-deployer/${project.version}/car</jpaDeployer>
+        <myfacesDeployer>org.apache.geronimo.configs/myfaces-deployer/${project.version}/car</myfacesDeployer>
+        <openwebbeansDeployer>org.apache.geronimo.configs/openwebbeans-deployer/${project.version}/car</openwebbeansDeployer>
+        <winkDeployer>org.apache.geronimo.configs/wink-deployer/${project.version}/car</winkDeployer>
+        
+        <jaxwsSunTools>org.apache.geronimo.configs/jaxws-sun-tools/${project.version}/car</jaxwsSunTools>
+
+        <!-- Common plan properties -->
+        <planServerHostname>0.0.0.0</planServerHostname>
+        <planHTTPPort>8080</planHTTPPort>
+        <planHTTPSPort>8443</planHTTPSPort>
+        <planAJPPort>8019</planAJPPort>
+        <planOpenEJBPort>4201</planOpenEJBPort>
+        <planOpenEJBMulticastPort>6142</planOpenEJBMulticastPort>
+        <planOpenEJBMulticastHostname>239.255.3.2</planOpenEJBMulticastHostname>
+        <PlanOpenEJBMultipointPort>4212</PlanOpenEJBMultipointPort>
+        <PlanOpenEJBMultipointHostname>localhost</PlanOpenEJBMultipointHostname>
+        <planNamingPort>1099</planNamingPort>
+        <planActiveMQPort>61616</planActiveMQPort>
+        <planCOSNamingHost>localhost</planCOSNamingHost>
+        <planCOSNamingPort>1050</planCOSNamingPort>
+        <planORBHost>localhost</planORBHost>
+        <planORBPort>6882</planORBPort>
+        <planORBSunPort>6882</planORBSunPort>
+        <planORBSSLHost>localhost</planORBSSLHost>
+        <planORBSSLPort>2001</planORBSSLPort>
+        <planORBSunSSLPort>2001</planORBSunSSLPort>
+        <planJMXPort>9999</planJMXPort>
+        <planJMXSecurePort>9998</planJMXSecurePort>
+
+        <!-- Plugins source-repository list-->
+        <pluginSrcRepoLocal>~/.m2/repository/</pluginSrcRepoLocal>
+        <pluginSrcRepoCentral>http://repo1.maven.org/maven2/</pluginSrcRepoCentral>
+        <pluginSrcRepoApacheSnapshots>http://repository.apache.org/snapshots/</pluginSrcRepoApacheSnapshots>
+        
+        <!-- OSGI properties -->
+        <equinox.version>3.7.1.R37x_v20110808_1106</equinox.version>    
+        <felix.bundlerepository.version>1.6.6</felix.bundlerepository.version>
+        <karaf.version>3.0.0-SNAPSHOT</karaf.version>
+        <karaf.osgi.version>3.0.0-SNAPSHOT</karaf.osgi.version>
+        <aries.blueprint.version>0.4</aries.blueprint.version>
+        <aries.jmx.version>0.3.1-SNAPSHOT</aries.jmx.version>
+        <!--<aries.util.version>0.4</aries.util.version>-->
+        <aries.jndi.version>0.3.1-SNAPSHOT</aries.jndi.version>
+        <aries.proxy.version>0.4</aries.proxy.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.karaf</groupId>
+                <artifactId>karaf</artifactId>
+                <version>${karaf.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-osgi-registry</artifactId>
+                <version>${geronimoosgiregistry.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-activation_1.1_spec</artifactId>
+                <version>1.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-annotation_1.1_spec</artifactId>
+                <version>1.0.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-atinject_1.0_spec</artifactId>
+                <version>1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-ccpp_1.0_spec</artifactId>
+                <version>1.0-beta</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-ejb_3.1_spec</artifactId>
+                <version>1.0.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-el_2.2_spec</artifactId>
+                <version>${geronimoel.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-interceptor_1.1_spec</artifactId>
+                <version>1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-j2ee-connector_1.6_spec</artifactId>
+                <version>1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-j2ee-management_1.1_spec</artifactId>
+                <version>1.0.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jacc_1.4_spec</artifactId>
+                <version>1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jaspic_1.0_spec</artifactId>
+                <version>1.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-javaee-deployment_1.1MR3_spec</artifactId>
+                <version>1.0.1</version>
+            </dependency>
+
+            <!-- Use org.apache.geronimo.javamail/geronimo-javamail_1.4_mail
+              uber jar containing both the spec and the providers in order that
+              users can actually use mail without advanced degrees in geronimo
+              classloading.  DO NOT add or replace this with
+              org.apache.geronimo.specs/geronimo-javamail_1.4_spec -->
+            <dependency>
+                <groupId>org.apache.geronimo.javamail</groupId>
+                <artifactId>geronimo-javamail_1.4_mail</artifactId>
+                <version>${javamail.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jaxb_2.2_spec</artifactId>
+                <version>1.0.2-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jaxr_1.0_spec</artifactId>
+                <version>2.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jaxrpc_1.1_spec</artifactId>
+                <version>2.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jaxws_2.2_spec</artifactId>
+                <version>${geronimojaxws.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jcdi_1.0_spec</artifactId>
+                <version>1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jms_1.1_spec</artifactId>
+                <version>1.1.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jpa_2.0_spec</artifactId>
+                <version>1.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jsp_2.2_spec</artifactId>
+                <version>1.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jta_1.1_spec</artifactId>
+                <version>1.1.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-saaj_1.3_spec</artifactId>
+                <version>1.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-servlet_3.0_spec</artifactId>
+                <version>1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-stax-api_1.2_spec</artifactId>
+                <version>1.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-validation_1.0_spec</artifactId>
+                <version>1.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
+                <version>1.1.3</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jaxrs_1.1_spec</artifactId>
+                <version>1.0</version>
+            </dependency>               
+
+            <dependency>
+                <groupId>org.apache.geronimo.components</groupId>
+                <artifactId>geronimo-connector</artifactId>
+                <version>${txmanagerVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.geronimo.components</groupId>
+                <artifactId>geronimo-connector</artifactId>
+                <version>${txmanagerVersion}</version>
+                <classifier>tests</classifier>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.geronimo.components</groupId>
+                <artifactId>geronimo-transaction</artifactId>
+                <version>${txmanagerVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.objectweb.howl</groupId>
+                        <artifactId>howl</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.geronimo.components</groupId>
+                <artifactId>geronimo-jaspi</artifactId>
+                <version>2.0.0</version>
+                <!--<exclusions>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>org.apache.geronimo.bundles</groupId>-->
+                        <!--<artifactId>woodstox</artifactId>-->
+                    <!--</exclusion>-->
+                <!--</exclusions>                                    -->
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.components</groupId>
+                <artifactId>geronimo-jaspi</artifactId>
+                <version>1.2-SNAPSHOT</version>
+                <classifier>tests</classifier>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.openjpa</groupId>
+                <artifactId>openjpa</artifactId>
+                <version>${openjpaVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.openjpa</groupId>
+                        <artifactId>openjpa-lib</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.openjpa</groupId>
+                        <artifactId>openjpa-kernel</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.openjpa</groupId>
+                        <artifactId>openjpa-jdbc</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.openjpa</groupId>
+                        <artifactId>openjpa-persistence</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.openjpa</groupId>
+                        <artifactId>openjpa-persistence-jdbc</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.openjpa</groupId>
+                        <artifactId>openjpa-slice</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.openjpa</groupId>
+                        <artifactId>openjpa-xmlstore</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>net.sourceforge.serp</groupId>
+                        <artifactId>serp</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-lang</groupId>
+                        <artifactId>commons-lang</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-jms_1.1_spec</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-jta_1.1_spec</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-jpa_2.0_spec</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-validation_1.0_spec</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.openjpa</groupId>
+                <artifactId>openjpa-persistence-jdbc</artifactId>
+                <version>${openjpaVersion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.servicemix.bundles</groupId>
+                <artifactId>org.apache.servicemix.bundles.serp</artifactId>
+                <version>1.13.1_2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.xbean</groupId>
+                <artifactId>xbean-finder</artifactId>
+                <version>${xbeanVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.xbean</groupId>
+                <artifactId>xbean-naming</artifactId>
+                <version>${xbeanVersion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.xbean</groupId>
+                <artifactId>xbean-reflect</artifactId>
+                <version>${xbeanVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.xbean</groupId>
+                <artifactId>xbean-blueprint</artifactId>
+                <version>${xbeanVersion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.xbean</groupId>
+                <artifactId>xbean-bundleutils</artifactId>
+                <version>${xbeanVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.xbean</groupId>
+                <artifactId>xbean-asm-shaded</artifactId>
+                <version>${xbeanVersion}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.apache.xbean</groupId>
+                <artifactId>xbean-classloader</artifactId>
+                <version>${xbeanVersion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-vfs</groupId>
+                <artifactId>commons-vfs</artifactId>
+                <version>1.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.bundles</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>1.6.8_1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.bundles</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>1.6.8_1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.servicemix.bundles</groupId>
+                <artifactId>org.apache.servicemix.bundles.ant</artifactId>
+                <version>1.7.0_3</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.servicemix.bundles</groupId>
+                <artifactId>org.apache.servicemix.bundles.jdt-core</artifactId>
+                <version>3.2.3_3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.agical.rmock</groupId>
+                <artifactId>rmock</artifactId>
+                <version>2.0.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.swizzle</groupId>
+                <artifactId>swizzle-stream</artifactId>
+                <version>1.0.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.bundles</groupId>
+                <artifactId>castor</artifactId>
+                <version>1.0.5_1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.servicemix.bundles</groupId>
+                <artifactId>org.apache.servicemix.bundles.cglib</artifactId>
+                <version>2.1_3_4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.servicemix.bundles</groupId>
+                <artifactId>org.apache.servicemix.bundles.howl</artifactId>
+                <version>1.0.1-1_1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.objectweb.howl</groupId>
+                        <artifactId>howl</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>hsqldb</groupId>
+                <artifactId>hsqldb</artifactId>
+                <version>1.7.2.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.16</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.mail</groupId>
+                        <artifactId>mail</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.jms</groupId>
+                        <artifactId>jms</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.jdmk</groupId>
+                        <artifactId>jmxtools</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.jmx</groupId>
+                        <artifactId>jmxri</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- SLF4J support - used by Server -->
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <!--<version>1.5.5</version>-->
+                <version>1.6.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>mockobjects</groupId>
+                <artifactId>mockobjects-jdk1.4-j2ee1.3</artifactId>
+                <version>0.09</version>
+            </dependency>
+
+            <dependency>
+                <groupId>mockobjects</groupId>
+                <artifactId>mockobjects-core</artifactId>
+                <version>0.09</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.bcel</groupId>
+                <artifactId>bcel</artifactId>
+                <version>5.2</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>jakarta-regexp</groupId>
+                        <artifactId>jakarta-regexp</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.bundles</groupId>
+                <artifactId>derby-all</artifactId>
+                <version>${derbyVersion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>regexp</groupId>
+                <artifactId>regexp</artifactId>
+                <version>1.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.bundles</groupId>
+                <artifactId>scout</artifactId>
+                <version>1.2.3_1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xerces</groupId>
+                        <artifactId>xercesImpl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-jaxr_1.0_spec</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-activation_1.1_spec</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-jaxb_2.1_spec</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-jaxrpc_1.1_spec</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-saaj_1.3_spec</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-stax-api_1.0_spec</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-impl</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.servicemix.bundles</groupId>
+                <artifactId>org.apache.servicemix.bundles.wsdl4j</artifactId>
+                <version>1.6.2_2</version>
+            </dependency>
+
+            <!-- org.apache.xml.serialize.XMLSerializer is used by castor, hence this is still needed -->
+            <dependency>
+                <groupId>xalan</groupId>
+                <artifactId>xalan</artifactId>
+                <version>2.7.1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>xml-apis</groupId>
+                        <artifactId>xml-apis</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>xerces</groupId>
+                <artifactId>xercesImpl</artifactId>
+                <version>2.9.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.servicemix.bundles</groupId>
+                <artifactId>org.apache.servicemix.bundles.xmlbeans</artifactId>
+                <version>2.4.0_3</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.xml.stream</groupId>
+                        <artifactId>stax-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>stax</groupId>
+                        <artifactId>stax-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.servicemix.bundles</groupId>
+                <artifactId>org.apache.servicemix.bundles.xmlresolver</artifactId>
+                <version>1.2_2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.thoughtworks.xstream</groupId>
+                <artifactId>xstream</artifactId>
+                <version>1.3.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>xpp3</groupId>
+                <artifactId>xpp3_min</artifactId>
+                <version>1.1.4c</version>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.5</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>5.8</version>
+                <classifier>jdk15</classifier>
+            </dependency>
+
+            <dependency>
+                <groupId>org.seleniumhq.selenium.client-drivers</groupId>
+                <artifactId>selenium-java-client-driver</artifactId>
+                <version>1.0.2</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.seleniumhq.selenium.server</groupId>
+                        <artifactId>selenium-server</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.seleniumhq.selenium.server</groupId>
+                        <artifactId>selenium-server-coreless</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.seleniumhq.selenium.server</groupId>
+                <artifactId>selenium-server</artifactId>
+                <classifier>standalone</classifier>
+                <version>1.0.3</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.seleniumhq.selenium.server</groupId>
+                        <artifactId>selenium-server-coreless</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.seleniumhq.selenium.core</groupId>
+                        <artifactId>selenium-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+
+            <dependency>
+                <groupId>antlr</groupId>
+                <artifactId>antlr</artifactId>
+                <version>2.7.5</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.servicemix.bundles</groupId>
+                <artifactId>org.apache.servicemix.bundles.commons-io</artifactId>
+                <version>1.3.2_3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.bundles</groupId>
+                <artifactId>commons-discovery</artifactId>
+                <version>0.4_1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>3.2.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-dbcp</groupId>
+                <artifactId>commons-dbcp</artifactId>
+                <version>1.4</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.6</version>
+            </dependency>
+            
+            <!-- for bval 0.4 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.1</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>commons-pool</groupId>
+                <artifactId>commons-pool</artifactId>
+                <version>1.5.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-el</groupId>
+                <artifactId>commons-el</artifactId>
+                <version>1.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.bundles</groupId>
+                <artifactId>commons-digester</artifactId>
+                <version>1.8_1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.servicemix.bundles</groupId>
+                        <artifactId>org.apache.servicemix.bundles.commons-beanutils</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!--
+            TODO: See if we can remove this...
+            -->
+            <dependency>
+                <groupId>commons-cli</groupId>
+                <artifactId>commons-cli</artifactId>
+                <version>1.2</version>
+            </dependency>
+
+            <dependency>
+                <!-- already bundleized -->
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>1.2.1</version>
+            </dependency>
+
+            <dependency>
+                <!-- already bundleized -->
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>1.8.3</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.servicemix.bundles</groupId>
+                <artifactId>org.apache.servicemix.bundles.commons-codec</artifactId>
+                <version>1.3_2</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.bundles</groupId>
+                <artifactId>jstl</artifactId>
+                <version>1.2_1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.bundles</groupId>
+                <artifactId>json</artifactId>
+                <version>20090211_1</version>
+            </dependency>
+        
+            <dependency>
+                <groupId>org.apache.geronimo.bundles</groupId>
+                <artifactId>dwr</artifactId>
+                <version>3.0.M1_1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.openejb</groupId>
+                <artifactId>openejb-core</artifactId>
+                <version>${openejbVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>javaee-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>javaee-api-embedded</artifactId>
+                    </exclusion>                    
+                    <exclusion>
+                        <groupId>org.apache.geronimo.javamail</groupId>
+                        <artifactId>geronimo-javamail_1.4_mail</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>hsqldb</groupId>
+                        <artifactId>hsqldb</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.activemq</groupId>
+                        <artifactId>activemq-ra</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.activemq</groupId>
+                        <artifactId>activemq-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>commons-dbcp-all</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.components</groupId>
+                        <artifactId>geronimo-transaction</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.components</groupId>
+                        <artifactId>geronimo-connector</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.objectweb.howl</groupId>
+                        <artifactId>howl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.xbean</groupId>
+                        <artifactId>xbean-finder-shaded</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.openjpa</groupId>
+                        <artifactId>openjpa</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>wsdl4j</groupId>
+                        <artifactId>wsdl4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.xbean</groupId>
+                        <artifactId>xbean-asm-shaded</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.quartz-scheduler</groupId>
+                        <artifactId>quartz</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javassist</groupId>
+                        <artifactId>javassist</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>net.sourceforge.serp</groupId>
+                        <artifactId>serp</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.openwebbeans</groupId>
+                        <artifactId>openwebbeans-ee-common</artifactId>
+                    </exclusion>
+                    <exclusion>
+                      <groupId>org.apache.bval</groupId>
+                      <artifactId>bval-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                      <groupId>org.apache.bval</groupId>
+                      <artifactId>bval-jsr303</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.openejb</groupId>
+                <artifactId>openejb-client</artifactId>
+                <version>${openejbVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>javaee-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>javaee-api-embedded</artifactId>
+                    </exclusion>                      
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>ejb31-api-experimental</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.javamail</groupId>
+                        <artifactId>geronimo-javamail_1.4_mail</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.openejb</groupId>
+                <artifactId>openejb-multicast</artifactId>
+                <version>${openejbVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>javaee-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>javaee-api-embedded</artifactId>
+                    </exclusion>                      
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>ejb31-api-experimental</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.openejb</groupId>
+                <artifactId>openejb-ejbd</artifactId>
+                <version>${openejbVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>javaee-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>javaee-api-embedded</artifactId>
+                    </exclusion>                      
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.openejb</groupId>
+                <artifactId>openejb-axis</artifactId>
+                <version>${openejbVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>javaee-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>javaee-api-embedded</artifactId>
+                    </exclusion>                      
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>ejb31-api-experimental</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>openejb-webservices</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.ws.commons.schema</groupId>
+                        <artifactId>XmlSchema</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>cglib</groupId>
+                        <artifactId>cglib-nodep</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>axis</groupId>
+                        <artifactId>axis</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.openejb</groupId>
+                <artifactId>openejb-server</artifactId>
+                <version>${openejbVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>javaee-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>javaee-api-embedded</artifactId>
+                    </exclusion>                      
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>ejb31-api-experimental</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.xbean</groupId>
+                        <artifactId>xbean-asm-shaded</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.openejb</groupId>
+                <artifactId>openejb-loader</artifactId>
+                <version>${openejbVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>javaee-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>javaee-api-embedded</artifactId>
+                    </exclusion>                      
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>ejb31-api-experimental</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.openejb</groupId>
+                <artifactId>openejb-jee</artifactId>
+                <version>${openejbVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>javaee-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>javaee-api-embedded</artifactId>
+                    </exclusion>                      
+                    <exclusion>
+                        <groupId>org.apache.openejb</groupId>
+                        <artifactId>ejb31-api-experimental</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-impl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.codehaus.woodstox</groupId>
+                        <artifactId>woodstox-core-asl</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.openejb</groupId>
+                <artifactId>openejb-javaagent</artifactId>
+                <version>${openejbVersion}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.apache.openejb</groupId>
+                <artifactId>openejb-osgi-core</artifactId>
+                <version>${openejbVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.osgi</groupId>
+                        <artifactId>org.osgi.core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.servicemix.bundles</groupId>
+                <artifactId>org.apache.servicemix.bundles.quartz</artifactId>
+                <version>1.8.3_1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.transaction</groupId>
+                        <artifactId>jta</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.servicemix.bundles</groupId>
+                <artifactId>org.apache.servicemix.bundles.asm</artifactId>
+                <version>3.3_2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.openwebbeans</groupId>
+                <artifactId>openwebbeans-spi</artifactId>
+                <version>${openwebbeansVersion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.openwebbeans</groupId>
+                <artifactId>openwebbeans-impl</artifactId>
+                <version>${openwebbeansVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javassist</groupId>
+                        <artifactId>javassist</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>net.sf.scannotation</groupId>
+                        <artifactId>scannotation</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.servicemix.bundles</groupId>
+                <artifactId>org.apache.servicemix.bundles.javassist</artifactId>
+                <version>3.12.0.ga_1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.bundles</groupId>
+                <artifactId>scannotation</artifactId>
+                <version>1.0.2_1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.yoko</groupId>
+                <artifactId>yoko-spec-corba</artifactId>
+                <version>${yokoVersion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.yoko</groupId>
+                <artifactId>yoko-rmi-spec</artifactId>
+                <version>${yokoVersion}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.apache.yoko</groupId>
+                <artifactId>yoko-rmi-impl</artifactId>
+                <version>${yokoVersion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.bundles</groupId>
+                <artifactId>woodstox-core-asl</artifactId>
+                <version>${woodstoxVersion}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.codehaus.woodstox</groupId>
+                <artifactId>stax2-api</artifactId>
+                <version>3.1.1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.xml.stream</groupId>
+                        <artifactId>stax-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.ws.commons.schema</groupId>
+                <artifactId>XmlSchema</artifactId>
+                <version>1.4.6</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.bcel</groupId>
+                        <artifactId>bcel</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>xalan</groupId>
+                        <artifactId>xalan</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.bundles</groupId>
+                <artifactId>jaxb-impl</artifactId>
+                <version>${jaxbImplVersion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.bundles</groupId>
+                <artifactId>axiom-all</artifactId>
+                <version>${axiomVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-activation_1.1_spec</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-javamail_1.4_spec</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-stax-api_1.0_spec</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.neethi</groupId>
+                <artifactId>neethi</artifactId>
+                <version>3.0.1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.ws.commons.axiom</groupId>
+                        <artifactId>axiom-impl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.ws.commons.axiom</groupId>
+                        <artifactId>axiom-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.ws.commons.axiom</groupId>
+                        <artifactId>axiom-dom</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>wsdl4j</groupId>
+                        <artifactId>wsdl4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.codehaus.woodstox</groupId>
+                        <artifactId>woodstox-core-asl</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>gmaven-mojo</artifactId>
+                <version>1.2</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.codehaus.gmaven.runtime</groupId>
+                        <artifactId>gmaven-runtime-1.5</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy-all-minimal</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.gmaven.runtime</groupId>
+                <artifactId>gmaven-runtime-1.6</artifactId>
+                <version>1.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.sonatype.gossip</groupId>
+                <artifactId>gossip</artifactId>
+                <version>1.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <version>1.7.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.ant</groupId>
+                <artifactId>ant</artifactId>
+                <version>1.8.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.ant</groupId>
+                <artifactId>ant-launcher</artifactId>
+                <version>1.8.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-classworlds</artifactId>
+                <version>1.2-alpha-10</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-component-annotations</artifactId>
+                <version>1.0-alpha-1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-component-api</artifactId>
+                <version>1.0-alpha-32</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.codehaus.plexus</groupId>
+                        <artifactId>plexus-classworlds</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-container-default</artifactId>
+                <version>1.0-alpha-32</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.codehaus.plexus</groupId>
+                        <artifactId>plexus-classworlds</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-utils</artifactId>
+                <version>1.4.5</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.mina</groupId>
+                <artifactId>mina-core</artifactId>
+                <version>1.1.6</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.mina</groupId>
+                <artifactId>mina-filter-ssl</artifactId>
+                <version>1.1.7</version>
+            </dependency>
+
+            <!-- archive support -->
+            <!-- archiver version matches maven 2.0.7.  Upgrading maven may require upgrading this version -->
+            <dependency>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-archiver</artifactId>
+                <version>1.0-alpha-7</version>
+            </dependency>
+
+            <!-- Spring Plugin -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring</artifactId>
+                <version>${springVersion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${springVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${springVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${springVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>aopalliance</groupId>
+                        <artifactId>aopalliance</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${springVersion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>servlet-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+<!--
+only found in cxf
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15</artifactId>
+                <version>1.43</version>
+            </dependency>
+-->
+
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity</artifactId>
+                <version>1.5</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>oro</groupId>
+                        <artifactId>oro</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.osgi</groupId>
+                <artifactId>org.eclipse.osgi</artifactId>
+                <version>${equinox.version}</version>
+            </dependency>
+
+            <!-- todo karaf now includes these classes, get rid of this? Most likely will cause java 7 compilation problems-->
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.core</artifactId>
+                <version>4.3.0</version>
+            </dependency>
+
+            <!--<dependency>-->
+                <!--<groupId>org.osgi</groupId>-->
+                <!--<artifactId>org.osgi.compendium</artifactId>-->
+                <!--<version>4.2.0</version>-->
+            <!--</dependency>-->
+
+            <dependency>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>org.apache.felix.scr</artifactId>
+                <version>1.6.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>org.apache.felix.scr.annotations</artifactId>
+                <version>1.4.0</version>
+            </dependency>
+            <!-- ? needed to make scr commands work -->
+            <dependency>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>org.apache.felix.shell</artifactId>
+                <version>1.4.2</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.osgi</groupId>
+                        <artifactId>org.osgi.core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.osgi</groupId>
+                        <artifactId>org.osgi.compendium</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.apache.felix</groupId>-->
+                <!--<artifactId>org.apache.felix.bundlerepository</artifactId>-->
+                <!--<version>${felix.bundlerepository.version}</version>-->
+                <!--<exclusions>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>org.apache.felix</groupId>-->
+                        <!--<artifactId>org.osgi.core</artifactId>-->
+                    <!--</exclusion>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>org.apache.felix</groupId>-->
+                        <!--<artifactId>org.osgi.compendium</artifactId>-->
+                    <!--</exclusion>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>org.apache.felix</groupId>-->
+                        <!--<artifactId>org.apache.felix.shell</artifactId>-->
+                    <!--</exclusion>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>org.osgi</groupId>-->
+                        <!--<artifactId>org.osgi.core</artifactId>-->
+                    <!--</exclusion>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>xmlpull</groupId>-->
+                        <!--<artifactId>xmlpull</artifactId>-->
+                    <!--</exclusion>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>net.sf.kxml</groupId>-->
+                        <!--<artifactId>kxml2</artifactId>-->
+                    <!--</exclusion>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>org.easymock</groupId>-->
+                        <!--<artifactId>easymock</artifactId>-->
+                    <!--</exclusion>-->
+                <!--</exclusions>-->
+            <!--</dependency>-->
+
+            <!--<dependency>-->
+                <!--<groupId>org.apache.karaf.shell</groupId>-->
+                <!--<artifactId>org.apache.karaf.shell.console</artifactId>-->
+                <!--<version>${karaf.version}</version>-->
+                <!--<exclusions>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>org.apache.felix.gogo</groupId>-->
+                        <!--<artifactId>org.apache.felix.gogo.runtime</artifactId>-->
+                    <!--</exclusion>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>org.sonatype.jline</groupId>-->
+                        <!--<artifactId>jline</artifactId>-->
+                    <!--</exclusion>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>org.fusesource.jansi</groupId>-->
+                        <!--<artifactId>jansi</artifactId>-->
+                    <!--</exclusion>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>org.apache.aries.blueprint</groupId>-->
+                        <!--<artifactId>org.apache.aries.blueprint</artifactId>-->
+                    <!--</exclusion>-->
+               <!--</exclusions>-->
+            <!--</dependency>-->
+
+            <!-- we use this as a jar, I think karaf only specifies it as a plugin -->
+            <dependency>
+                <groupId>org.apache.karaf.tooling</groupId>
+                <artifactId>karaf-maven-plugin</artifactId>
+                <version>${karaf.version}</version>
+            </dependency>
+
+            <!--<dependency>-->
+                <!--<groupId>org.apache.karaf.jaas</groupId>-->
+                <!--<artifactId>org.apache.karaf.jaas.modules</artifactId>-->
+                <!--<version>${karaf.version}</version>-->
+            <!--</dependency>-->
+            <!---->
+            <!--<dependency>-->
+                <!--<groupId>org.apache.karaf.jaas</groupId>-->
+                <!--<artifactId>org.apache.karaf.jaas.boot</artifactId>-->
+                <!--<version>${karaf.version}</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+                <!--<groupId>org.apache.karaf</groupId>-->
+                <!--<artifactId>org.apache.karaf.main</artifactId>-->
+                <!--<version>${karaf.version}</version>-->
+            <!--</dependency>-->
+
+            <!--<dependency>-->
+                <!--<groupId>org.apache.aries</groupId>-->
+                <!--<artifactId>org.apache.aries.util</artifactId>-->
+                <!--<version>${aries.util.version}</version>-->
+                 <!--<exclusions>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>org.apache.aries.testsupport</groupId>-->
+                        <!--<artifactId>org.apache.aries.testsupport.unit</artifactId>-->
+                    <!--</exclusion>-->
+                <!--</exclusions> -->
+            <!--</dependency>-->
+
+            <!--<dependency>-->
+                <!--<groupId>org.apache.aries.jndi</groupId>-->
+                <!--<artifactId>org.apache.aries.jndi</artifactId>-->
+                <!--<version>${aries.jndi.version}</version>-->
+            <!--</dependency>-->
+
+            <!--<dependency>-->
+                <!--<groupId>org.apache.aries.jmx</groupId>-->
+                <!--<artifactId>org.apache.aries.jmx</artifactId>-->
+                <!--<version>${aries.jmx.version}</version>-->
+            <!--</dependency>-->
+
+            <!--<dependency>-->
+                <!--<groupId>org.apache.aries.jmx</groupId>-->
+                <!--<artifactId>org.apache.aries.jmx.blueprint</artifactId>-->
+                <!--<version>${aries.jmx.version}</version>-->
+                <!--<exclusions>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>org.slf4j</groupId>-->
+                        <!--<artifactId>slf4j-api</artifactId>-->
+                    <!--</exclusion>-->
+                <!--</exclusions>-->
+            <!--</dependency>-->
+
+            <!--<dependency>-->
+                <!--<groupId>org.apache.aries.proxy</groupId>-->
+                <!--<artifactId>org.apache.aries.proxy</artifactId>-->
+                <!--<version>${aries.proxy.version}</version>-->
+                <!--<exclusions>-->
+                    <!--<exclusion>-->
+                       <!--<groupId>org.apache.aries.testsupport</groupId>-->
+                       <!--<artifactId>org.apache.aries.testsupport.unit</artifactId>-->
+                    <!--</exclusion>-->
+                <!--</exclusions> -->
+            <!--</dependency>-->
+
+            <!--<dependency>-->
+                <!--<groupId>org.apache.aries.proxy</groupId>-->
+                <!--<artifactId>org.apache.aries.proxy.impl</artifactId>-->
+                <!--<version>${aries.proxy.version}</version>-->
+                <!--<exclusions>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>org.slf4j</groupId>-->
+                        <!--<artifactId>slf4j-api</artifactId>-->
+                    <!--</exclusion>-->
+                <!--</exclusions> -->
+            <!--</dependency>-->
+            
+            <!--<dependency>-->
+                <!--<groupId>org.apache.geronimo.ext.aries.blueprint</groupId>-->
+                <!--<artifactId>org.apache.aries.blueprint</artifactId>-->
+                <!--<version>${aries.blueprint.version}</version>-->
+                <!--<exclusions>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>org.slf4j</groupId>-->
+                        <!--<artifactId>slf4j-api</artifactId>-->
+                    <!--</exclusion>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>org.apache.aries.testsupport</groupId>-->
+                        <!--<artifactId>org.apache.aries.testsupport.unit</artifactId>-->
+                    <!--</exclusion>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>commons-logging</groupId>-->
+                        <!--<artifactId>commons-logging</artifactId>-->
+                    <!--</exclusion>-->
+                <!--</exclusions>-->
+            <!--</dependency>-->
+            
+            <dependency>
+                <groupId>org.apache.juddi</groupId>
+                <artifactId>uddi-ws</artifactId>
+                <version>${juddiv3.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.xml.bind</groupId>
+                        <artifactId>jaxb-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.xml.ws</groupId>
+                        <artifactId>jaxws-rt</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-impl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-jaxws_2.1_spec</artifactId>
+                    </exclusion>                      
+                </exclusions>
+            </dependency>            
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- todo why here?? remove -->
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.gmaven</groupId>
+                    <artifactId>gmaven-plugin</artifactId>
+                    <version>1.2</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>generateStubs</goal>
+                                <goal>compile</goal>
+                                <goal>generateTestStubs</goal>
+                                <goal>testCompile</goal>
+                            </goals>
+                            <configuration>
+                                <providerSelection>1.6</providerSelection>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>selenium-maven-plugin</artifactId>
+                    <version>1.1</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.ant</groupId>
+                            <artifactId>ant</artifactId>
+                            <version>1.8.1</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.seleniumhq.selenium.server</groupId>
+                            <artifactId>selenium-server</artifactId>
+                            <classifier>standalone</classifier>
+                            <version>1.0.3</version>
+                            <exclusions>
+                                <exclusion>
+                                    <groupId>org.seleniumhq.selenium.server</groupId>
+                                    <artifactId>selenium-server-coreless</artifactId>
+                                </exclusion>
+                                <exclusion>
+                                    <groupId>org.seleniumhq.selenium.core</groupId>
+                                    <artifactId>selenium-core</artifactId>
+                                </exclusion>
+                            </exclusions>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>xmlbeans-maven-plugin</artifactId>
+                    <version>2.3.3</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>xmlbeans</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <download>true</download>
+                        <quiet>false</quiet>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo.jspc</groupId>
+                    <artifactId>jspc-maven-plugin</artifactId>
+                    <!--<version>2.0-alpha-2</version>-->
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                            <configuration>
+                                <warSourceDirectory>${pom.basedir}/src/main/webapp</warSourceDirectory>
+                                <source>1.5</source>
+                                <target>1.5</target>
+                            </configuration>
+                        </execution>
+                    </executions>
+
+                    <!-- Use the Tomcat 6 JSP compiler, but with our custom Jasper version -->
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.geronimo.specs</groupId>
+                            <artifactId>geronimo-el_2.2_spec</artifactId>
+                            <version>1.0.1</version>
+                        </dependency>
+
+                        <dependency>
+                            <groupId>org.codehaus.mojo.jspc</groupId>
+                            <artifactId>jspc-compiler-tomcat6</artifactId>
+                            <version>2.0-alpha-2</version>
+                            <exclusions>
+                                <exclusion>
+                                    <groupId>org.apache.tomcat</groupId>
+                                    <artifactId>jasper</artifactId>
+                                </exclusion>
+                            </exclusions>
+                        </dependency>
+
+                        <dependency>
+                            <groupId>${tomcatGroupId}</groupId>
+                            <artifactId>jasper</artifactId>
+                            <version>${tomcatVersion}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>sql-maven-plugin</artifactId>
+                    <version>1.0</version>
+                </plugin>
+
+                <!--
+                FIXME: Should not configure war to assume jsp by default
+                -->
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>2.1.1</version>
+                    <configuration>
+                        <!--
+                       <webXml>${project.build.directory}/jspweb.xml</webXml>
+                        -->
+                        <archiveClasses>true</archiveClasses>
+                        <archive>
+                            <!-- Do not include META-INF/maven to avoid long file problems on windows -->
+                            <addMavenDescriptor>false</addMavenDescriptor>
+                        </archive>
+
+                        <!--
+                        HACK: Include legal files explicity, otherwise they will end up in the wrong path
+                              or in another jar file in the war.
+
+                        NOTE: targetPath is broken for webResources (as documented)
+                        -->
+                         <webResources>
+                            <resource>
+                                <directory>${project.build.outputDirectory}</directory>
+                                <includes>
+                                    <include>META-INF/LICENSE*</include>
+                                    <include>META-INF/NOTICE*</include>
+                                    <include>META-INF/DISCLAIMER*</include>
+                                </includes>
+                            </resource>
+                        </webResources>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                        <failIfNoTests>false</failIfNoTests>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>2.3.4</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <instructions>
+                            <Implementation-Title>${project.name}</Implementation-Title>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                            <Bundle-DocURL>${project.url}</Bundle-DocURL>
+                        </instructions>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-scr-plugin</artifactId>
+                    <version>1.6.0</version>
+                    <executions>
+                        <execution>
+                            <id>generate-scr-scrdescriptor</id>
+                            <goals>
+                                <goal>scr</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <specVersion>1.1</specVersion>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>1.3</version>
+
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.ant</groupId>
+                            <artifactId>ant-nodeps</artifactId>
+                            <version>1.7.1</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+
+                <!-- INTERNAL -->
+
+                <plugin>
+                    <groupId>org.apache.geronimo.buildsupport</groupId>
+                    <artifactId>buildsupport-maven-plugin</artifactId>
+                    <version>${project.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.geronimo.buildsupport</groupId>
+                    <artifactId>car-maven-plugin</artifactId>
+                    <version>${project.version}</version>
+                    <extensions>true</extensions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.geronimo.buildsupport</groupId>
+                    <artifactId>testsuite-maven-plugin</artifactId>
+                    <version>${project.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.geronimo.buildsupport</groupId>
+                    <artifactId>geronimo-maven-plugin</artifactId>
+                    <version>${project.version}</version>
+
+                    <configuration>
+                        <assemblies>
+                            <assembly>
+                                <id>jetty</id>
+                                <groupId>org.apache.geronimo.assemblies</groupId>
+                                <artifactId>geronimo-jetty8-javaee6</artifactId>
+                                <version>${project.version}</version>
+                                <classifier>bin</classifier>
+                                <type>zip</type>
+                            </assembly>
+                            <assembly>
+                                <id>jetty-web</id>
+                                <groupId>org.apache.geronimo.assemblies</groupId>
+                                <artifactId>geronimo-jetty8-javaee6-web</artifactId>
+                                <version>${project.version}</version>
+                                <classifier>bin</classifier>
+                                <type>zip</type>
+                            </assembly>
+                            <assembly>
+                                <id>jetty-minimal</id>
+                                <groupId>org.apache.geronimo.assemblies</groupId>
+                                <artifactId>geronimo-jetty8-minimal</artifactId>
+                                <version>${project.version}</version>
+                                <classifier>bin</classifier>
+                                <type>zip</type>
+                            </assembly>
+
+                            <assembly>
+                                <id>tomcat</id>
+                                <groupId>org.apache.geronimo.assemblies</groupId>
+                                <artifactId>geronimo-tomcat7-javaee6</artifactId>
+                                <version>${project.version}</version>
+                                <classifier>bin</classifier>
+                                <type>zip</type>
+                            </assembly>
+                            <assembly>
+                                <id>tomcat-web</id>
+                                <groupId>org.apache.geronimo.assemblies</groupId>
+                                <artifactId>geronimo-tomcat7-javaee6-web</artifactId>
+                                <version>${project.version}</version>
+                                <classifier>bin</classifier>
+                                <type>zip</type>
+                            </assembly>
+                            <assembly>
+                                <id>tomcat-minimal</id>
+                                <groupId>org.apache.geronimo.assemblies</groupId>
+                                <artifactId>geronimo-tomcat7-minimal</artifactId>
+                                <version>${project.version}</version>
+                                <classifier>bin</classifier>
+                                <type>zip</type>
+                            </assembly>
+
+                            <assembly>
+                                <id>framework</id>
+                                <groupId>org.apache.geronimo.assemblies</groupId>
+                                <artifactId>geronimo-framework</artifactId>
+                                <version>${project.version}</version>
+                                <classifier>bin</classifier>
+                                <type>zip</type>
+                            </assembly>
+                        </assemblies>
+
+                        <defaultAssemblyId>tomcat</defaultAssemblyId>
+
+                        <optionSets>
+                            <optionSet>
+                                <id>morememory</id>
+                                <options>
+                                    <option>-Xmx1024m</option>
+                                    <option>-XX:MaxPermSize=256m</option>
+                                </options>
+                            </optionSet>
+
+                            <optionSet>
+                                <id>debug</id>
+                                <options>
+                                    <option>-Xdebug</option>
+                                    <option>-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n</option>
+                                </options>
+                            </optionSet>
+                        </optionSets>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>native2ascii-maven-plugin</artifactId>
+                    <version>1.0-alpha-1</version>
+                    <configuration>
+                        <dest>target/classes</dest>
+                        <src>src/main/i18n-resources</src>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>native2ascii-utf8</id>
+                            <goals>
+                                <goal>native2ascii</goal>
+                            </goals>
+                            <configuration>
+                                <encoding>UTF-8</encoding>
+                                <includes>
+                                    *.*
+                                </includes>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.geronimo.buildsupport</groupId>
+                    <artifactId>geronimo-osgi-plugin</artifactId>
+                    <version>${project.version}</version>
+                    <configuration>
+                        <failOnError>false</failOnError>
+                        <profileName>Geronimo-1.6.profile</profileName>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>verify-manifest</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>verify-manifest</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.geronimo.buildsupport</groupId>
+                    <artifactId>geronimo-property-plugin</artifactId>
+                    <version>${project.version}</version>
+                    <executions>
+                        <execution>
+                            <id>set-property</id>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>set-property</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.karaf.tooling</groupId>
+                    <artifactId>karaf-maven-plugin</artifactId>
+                    <version>3.0.0-SNAPSHOT</version>
+                    <extensions>true</extensions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.karaf.tooling</groupId>
+                <artifactId>karaf-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>[2.2.1,)</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <!--
+        NOTE: The repository and snapshotRepository are picked up from Genesis.
+        -->
+
+        <site>
+            <id>geronimo-website</id>
+            <url>scp://people.apache.org/www/geronimo.apache.org/maven/server</url>
+        </site>
+    </distributionManagement>
+
+    <pluginRepositories>
+        <!-- required for clean build unless you want to bootstrap the car-maven-plugin -->
+        <pluginRepository>
+            <id>apache.snapshots</id>
+            <name>Apache Snapshots Repository</name>
+            <url>http://repository.apache.org/snapshots</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>ignore</checksumPolicy>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>                  
+
+    <profiles>
+        <profile>
+            <id>default</id>
+
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+            <modules>
+                <module>testsupport</module>
+                <module>framework</module>
+                <module>plugins</module>
+                <module>plugingroups</module>
+                <module>assemblies</module>
+            </modules>
+
+            <repositories>
+                <repository>
+                    <id>geronimo-svn-repo</id>
+                    <name>Geronimo 3rd Party libraries</name>
+                    <url>http://svn.apache.org/repos/asf/geronimo/repo/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <!-- org.eclipse.jetty routing -->
+                    <id>jetty.oss.sonatype.org</id>
+                    <name>Jetty Repository</name>
+                    <layout>default</layout>
+                    <url>http://oss.sonatype.org/content/groups/jetty-with-staging</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </repository>
+                <repository>
+                    <id>ops4j.oss.sonatype.org</id>
+                    <name>OPS4J Repository</name>
+                    <layout>default</layout>
+                    <url>http://oss.sonatype.org/content/groups/ops4j-with-staging</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </repository>
+                <repository>
+                    <!-- equinox -->
+                    <!-- org.eclipse routing -->
+                    <id>smx.svn</id>
+                    <name>Servicemix svn Repository</name>
+                    <layout>default</layout>
+                    <url>http://svn.apache.org/repos/asf/servicemix/m2-repo/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>java.net2</id>
+                    <url>http://download.java.net/maven/2/</url>
+                    <layout>default</layout>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </repository>
+                <repository>
+                    <id>openqa-releases</id>
+                    <name>Openqa Release Repository</name>
+                    <url>http://nexus.openqa.org/content/repositories/releases</url>
+                    <layout>default</layout>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </repository>
+                <repository>
+                    <id>openqa-snapshots</id>
+                    <name>Openqa Snapshot Repository</name>
+                    <url>http://nexus.openqa.org/content/repositories/snapshots</url>
+                    <layout>default</layout>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>daily</updatePolicy>
+                        <checksumPolicy>ignore</checksumPolicy>
+                    </snapshots>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                </repository>
+            </repositories>
+        </profile>
+
+        <profile>
+            <id>it</id>
+
+            <modules>
+                <module>testsupport</module>
+                <module>framework</module>
+                <module>plugins</module>
+                <module>plugingroups</module>
+                <module>assemblies</module>
+                <module>testsuite</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>all-subprojects</id>
+
+            <modules>
+                <module>testsupport</module>
+                <module>framework</module>
+                <module>plugins</module>
+                <module>plugingroups</module>
+                <module>assemblies</module>
+                <module>testsuite</module>
+            </modules>
+        </profile>
+        
+        <profile>
+            <id>notar</id>
+            
+            <properties>
+                <tarAssemblies>false</tarAssemblies>
+            </properties>
+        </profile>
+
+        <!--
+        NOTE: This profile is used to enable plugin prefixes for easy command-line usage, as in:
+
+              mvn -Ptools geronimo:start
+        -->
+        <profile>
+            <id>tools</id>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.geronimo.buildsupport</groupId>
+                        <artifactId>geronimo-maven-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>selenium-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>nexus</id>
+            <activation>
+                <property>
+                    <name>nexus</name>
+                </property>
+            </activation>
+
+            <modules>
+                <module>testsupport</module>
+                <module>framework</module>
+                <module>plugins</module>
+                <module>plugingroups</module>
+                <module>assemblies</module>
+            </modules>
+        </profile>
+
+        <!--
+        NOTE: The staged build is used to get around a problem with Maven
+              and extension plugins.
+
+              See http://issues.apache.org/jira/browse/GERONIMO-2172 for more details.
+        -->
+        <profile>
+            <id>stage-bootstrap</id>
+
+            <activation>
+                <property>
+                    <name>stage</name>
+                    <value>bootstrap</value>
+                </property>
+            </activation>
+
+            <modules>
+                <module>framework</module>
+            </modules>
+
+            <repositories>
+                <repository>
+                    <id>geronimo-svn-repo</id>
+                    <name>Geronimo 3rd Party libraries</name>
+                    <url>http://svn.apache.org/repos/asf/geronimo/repo/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <!-- org.ops4j routing -->
+                    <id>ops4j.snapshots</id>
+                    <name>OPS4J Snapshots Repository</name>
+                    <layout>default</layout>
+                    <url>http://repository.ops4j.org/mvn-snapshots/</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>daily</updatePolicy>
+                        <checksumPolicy>warn</checksumPolicy>
+                    </snapshots>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                </repository>
+                <repository>
+                    <!-- equinox -->
+                    <!-- org.eclipse routing -->
+                    <id>smx.svn</id>
+                    <name>Servicemix svn Repository</name>
+                    <layout>default</layout>
+                    <url>http://svn.apache.org/repos/asf/servicemix/m2-repo/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>java.net</id>
+                    <url>http://download.java.net/maven/1/</url>
+                    <layout>legacy</layout>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </repository>
+            </repositories>
+        </profile>
+
+        <profile>
+            <id>stage-assemble</id>
+
+            <activation>
+                <property>
+                    <name>stage</name>
+                    <value>assemble</value>
+                </property>
+            </activation>
+
+            <modules>
+                <module>framework/configs</module>
+                <module>plugins</module>
+                <module>plugingroups</module>
+                <module>assemblies</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>release-environment</id>
+
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>release</value>
+                </property>
+            </activation>
+
+            <modules>
+                <module>testsupport</module>
+                <module>framework</module>
+                <module>plugins</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>site-environment</id>
+
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>site</value>
+                </property>
+            </activation>
+
+            <modules>
+                <module>testsupport</module>
+                <module>framework/modules</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>makeeclipse</id>
+
+            <build>
+                <defaultGoal>validate</defaultGoal>
+
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-eclipse-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>eclipse</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.geronimo.buildsupport</groupId>
+                        <artifactId>buildsupport-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>fix-eclipse-projects</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
+</project>
+
+

@@ -1,0 +1,162 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one or more
+* contributor license agreements.  See the NOTICE file distributed with
+* this work for additional information regarding copyright ownership.
+* The ASF licenses this file to You under the Apache License, Version 2.0
+* (the "License"); you may not use this file except in compliance with
+* the License.  You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+/** Layout definition **/
+#headerDiv {
+    width:100%;
+    height:88px;
+}
+
+#navigationDiv {
+    width:300px;
+    /*height need calculate*/ 
+    float:left; 
+    background-color:#f0f0f0
+}
+
+#panelDiv {
+    height: 60px;
+    padding-left: 4px;
+    padding-right: 4px;
+    font-family: Verdana,Tahoma,Arial,Helvetica,sans-serif;
+    font-size: 12px;
+}
+
+#treeDiv {
+    /*height need calculate*/ 
+    padding-left: 4px;
+    padding-right: 4px;
+    overflow-y: auto; 
+    overflow-x: hidden;
+    font-size: 12px;
+}
+
+#contentDiv {
+    /*width need calculate*/ 
+    /*height need calculate*/ 
+    float:left;
+}
+
+
+/** Banner block **/
+.Banner
+{
+    background-image:url("images/banner-3.0-bg_1x88.png");
+    background-repeat: repeat-x;
+    height: 88px; /* need keep same with #HeaderDiv */
+    width: 100%;
+}
+
+.Logo
+{
+    background-image:url("images/banner-3.0_900x88.png");
+    background-repeat: no-repeat;
+    text-align: right;
+    vertical-align: top; 
+    padding: 5px;
+    padding-right: 15px;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
+}
+
+.Logo a:link,
+.Logo a:visited{
+    color: #ffffff;
+}
+
+.Logo a:hover {
+    color: #c3e2fd;
+}
+
+/** Portlet title block **/
+.Caption
+{
+    background-image:url("images/title-3.0-bg_1x28.png");
+    background-repeat: repeat-x;
+    height: 28px
+    width: 100%;
+}
+
+.Figure {
+    background-image:url("images/title-3.0_200x28.png");
+    background-repeat: no-repeat;
+    text-align: left;
+    vertical-align: middle; 
+    padding: 5px;
+}
+
+/** 'portlet' block **/
+.portlet {
+  margin: 0px 0px 10px 0px;
+  padding: 0px;
+}
+
+.portlet .title {
+  height: 28px;
+}
+
+.portlet .title h2 {
+    float: left;
+    height: 18px;
+    line-height: 18px;
+    margin: 0px;
+    padding: 0px;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.portlet .title span {
+  width: 16px;
+  height: 16px;
+  float: right;
+}
+
+/** 'portlet' block: portlet mode and window state controls **/
+.portlet .title span.minimized {
+  background: url(images/controls/min.png) no-repeat;
+}
+
+.portlet .title span.maximized {
+  background: url(images/controls/max.png) no-repeat;
+}
+
+.portlet .title span.normal {
+  background: url(images/controls/norm.png) no-repeat;
+}
+
+.portlet .title span.view {
+  background: url(images/controls/view.png) no-repeat;
+}
+
+.portlet .title span.edit {
+  background: url(images/controls/edit.png) no-repeat;
+}
+
+.portlet .title span.help {
+  background: url(images/controls/help.png) no-repeat;
+}
+
+.portlet .body {
+  padding: 10px;
+  border-width: 0px 1px 1px 1px;
+  border-style: solid;
+  border-color: #769dc0;
+}
+

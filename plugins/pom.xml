@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+--><!-- $Rev$ $Date$ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.apache.geronimo</groupId>
+        <artifactId>geronimo</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>org.apache.geronimo.plugins</groupId>
+    <artifactId>plugins</artifactId>
+    <name>Geronimo Plugins</name>
+    <packaging>pom</packaging>
+
+    <properties>
+        <!-- This property is required by the car:package mojo -->
+<!-- bug in release plugin may be worked-around by copying it here
+        <geronimoVersion>${project.version}</geronimoVersion> -->
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.compendium</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.testsupport</groupId>
+            <artifactId>testsupport-common</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.geronimo.buildsupport</groupId>
+                <artifactId>car-maven-plugin</artifactId>
+                <!-- Install as extention to allow 'car' packaging to be used. -->
+                <extensions>true</extensions>
+                <configuration>
+                    <systemProperties>
+                        <geronimo.build.car>true</geronimo.build.car>
+                        <openejb.log.factory>org.apache.openejb.util.PaxLogStreamFactory</openejb.log.factory>
+                    </systemProperties>
+                    <archive>
+                        <!-- Do not include META-INF/maven to avoid long file problems on windows -->
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                    <osiApproved>true</osiApproved>
+                    <useMavenDependencies>
+                        <value>true</value>
+                        <includeVersion>true</includeVersion>
+                        <useTransitiveDependencies>true</useTransitiveDependencies>
+                    </useMavenDependencies>
+                    <warnOnDependencyChange>${warnOnDependencyChange}</warnOnDependencyChange>
+                    <logDependencyChanges>${logDependencyChanges}</logDependencyChanges>
+                    <overwriteChangedDependencies>${overwriteChangedDependencies}</overwriteChangedDependencies>
+                    <commonInstance>
+                        <plugin-artifact>
+                            <geronimo-version>${geronimoVersion}</geronimo-version>
+                            <jvm-version>1.6</jvm-version>
+                            <!--<source-repository>http://www.geronimoplugins.com/repository/geronimo-2.1</source-repository>-->
+                            <source-repository>${pluginSrcRepoLocal}</source-repository>
+                            <source-repository>${pluginSrcRepoCentral}</source-repository>
+                            <source-repository>${pluginSrcRepoApacheSnapshots}</source-repository>
+                            <artifact-alias key="${project.groupId}/${project.artifactId}//car">${project.groupId}/${project.artifactId}/${project.version}/car</artifact-alias>
+                            <artifact-alias key="${project.groupId}/openjpa//car">${project.groupId}/openjpa2/${project.version}/car</artifact-alias>
+                            <artifact-alias key="${project.groupId}/persistence-jpa10-deployer//car">${project.groupId}/persistence-jpa20-deployer/${project.version}/car</artifact-alias>  
+                        </plugin-artifact>
+                    </commonInstance>
+                </configuration>
+            </plugin>
+            <!--
+                 geronimo-property-plugin sets bootClassPath property
+                 which is used by maven-compiler-plugin and
+                 maven-surefire-plugin.
+            -->
+            <plugin>
+                <groupId>org.apache.geronimo.buildsupport</groupId>
+                <artifactId>geronimo-property-plugin</artifactId>
+                <configuration>
+                    <propertyName>bootClassPath</propertyName>
+                    <propertyValuePrefix>-Xbootclasspath/p:</propertyValuePrefix>
+                    <classpath>
+                        <dependency>
+                            <groupId>org.apache.geronimo.specs</groupId>
+                            <artifactId>geronimo-annotation_1.1_spec</artifactId>
+                            <version>1.0.1</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.apache.geronimo.specs</groupId>
+                            <artifactId>geronimo-jaxws_2.2_spec</artifactId>
+                            <version>${geronimojaxws.version}</version>
+                        </dependency>
+                    </classpath>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <compilerArgument>${bootClassPath}</compilerArgument>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>${bootClassPath}</argLine>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.geronimo.buildsupport</groupId>
+                <artifactId>geronimo-osgi-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <modules>
+        <!-- MNG-4052 modules used as import-scope need to be before anything that uses them -->
+        <module>pluto</module>
+        <module>system-database</module>
+        <module>activemq</module>
+        <module>aspectj</module>
+        <module>axis</module>
+        <module>axis2</module>
+        <module>client</module>
+        <module>clustering</module>
+        <module>connector-1_6</module>
+        <module>console</module>
+        <module>corba</module>
+        <module>cxf</module>
+        <module>debugviews</module>
+        <module>hotdeploy</module>
+        <module>j2ee</module>
+        <module>jasper</module>
+        <module>javamail</module>
+        <module>jaxws</module>
+        <module>myfaces</module>
+        <module>openejb</module>
+        <module>openjpa2</module>
+        <module>openwebbeans</module>
+        <module>wink</module>
+        <module>plancreator</module>
+        <module>webservices</module>
+        <!--<module>ca-helper</module>-->
+        <module>uddi</module>
+        <module>mejb</module>
+        <module>monitoring</module>
+        <module>remote-deploy</module>
+        <module>sharedlib</module>
+        <module>welcome</module>
+        <module>procrun</module>
+        <module>jetty8</module>
+        <module>tomcat</module>
+        <module>aries</module>
+        <module>wab</module>
+        <module>bval</module>
+    </modules>
+
+    <profiles>
+        <profile>
+            <id>ibmjdk</id>
+            <!-- see GERONIMO-4763.  Apparently the tools.jar needs to be specifically referenced on ibm jdks -->
+            <activation>
+                <file>
+                    <exists>${java.home}/../lib/tools.jar</exists>
+                </file>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>native2ascii-maven-plugin</artifactId>
+                            <dependencies>
+                                <dependency>
+                                    <groupId>com.sun</groupId>
+                                    <artifactId>tools</artifactId>
+                                    <!--the real JDK version could be 1.5 or 1.6-->
+                                    <version>1.5.0</version>
+                                    <scope>system</scope>
+                                    <optional>true</optional>
+                                    <systemPath>${java.home}/../lib/tools.jar</systemPath>
+                                </dependency>
+                            </dependencies>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+        <profile>
+            <id>all</id>
+            <modules>
+                <!-- MNG-4052 modules used as import-scope need to be before anything that uses them -->
+                <module>pluto</module>
+                <module>system-database</module>
+                <module>activemq</module>
+                <module>aspectj</module>
+                <module>axis</module>
+                <module>axis2</module>
+                <module>client</module>
+                <module>clustering</module>
+                <module>connector-1_6</module>
+                <module>console</module>
+                <module>corba</module>
+                <module>cxf</module>
+                <module>debugviews</module>
+                <module>hotdeploy</module>
+                <module>j2ee</module>
+                <module>jasper</module>
+                <module>javamail</module>
+                <module>jaxws</module>
+                <module>myfaces</module>
+                <module>openejb</module>
+                <module>openjpa2</module>
+                <module>openwebbeans</module>
+                <module>wink</module>
+                <module>plancreator</module>
+                <module>webservices</module>
+                <module>ca-helper</module>
+                <module>uddi</module>
+                <module>mejb</module>
+                <module>monitoring</module>
+                <module>remote-deploy</module>
+                <module>sharedlib</module>
+                <module>welcome</module>
+                <module>procrun</module>
+                <module>jetty8</module>
+                <module>tomcat</module>
+            </modules>
+        </profile>
+    </profiles>
+</project>

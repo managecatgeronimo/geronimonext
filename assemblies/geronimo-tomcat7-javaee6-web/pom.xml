@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<!-- $Rev: 942493 $ $Date: 2010-05-09 02:36:39 -0400 (Sun, 09 May 2010) $ -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.apache.geronimo.assemblies</groupId>
+        <artifactId>assemblies</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>geronimo-tomcat7-javaee6-web</artifactId>
+    <name>Geronimo Assemblies :: Java EE 6 Web Profile + Tomcat7</name>
+    <packaging>server-assembly</packaging>
+
+    <description>
+        An assembly of Geronimo into a Java EE 6 Web Profile server assembly using Tomcat as the web container.
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.karaf.features</groupId>
+            <artifactId>framework</artifactId>
+            <type>kar</type>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.karaf.features</groupId>
+            <artifactId>standard</artifactId>
+            <classifier>features</classifier>
+            <type>xml</type>
+            <scope>runtime</scope>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.karaf.features</groupId>
+            <artifactId>enterprise</artifactId>
+            <classifier>features</classifier>
+            <type>xml</type>
+            <scope>runtime</scope>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.framework.features</groupId>
+            <artifactId>framework</artifactId>
+            <version>${project.version}</version>
+            <type>kar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.framework.features</groupId>
+            <artifactId>org.apache.geronimo.javaee-specs</artifactId>
+            <version>${project.version}</version>
+            <classifier>features</classifier>
+            <type>xml</type>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.plugingroups</groupId>
+            <artifactId>javaee6-web-tomcat</artifactId>
+            <version>${project.version}</version>
+            <type>car</type>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.geronimo.buildsupport</groupId>
+                <artifactId>car-maven-plugin</artifactId>
+                <configuration>
+                    <startupFeatures>
+                        <feature>standard</feature>
+                        <feature>management</feature>
+                        <feature>ssh</feature>
+                        <feature>config</feature>
+                        <feature>kar</feature>
+                        <feature>obr</feature>
+                        <feature>framework</feature>
+                        <feature>org.apache.geronimo.javaee-specs</feature>
+                        <feature>aries-annotation</feature>
+                        <feature>org.apache.karaf.scr.feature</feature>
+                    </startupFeatures>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

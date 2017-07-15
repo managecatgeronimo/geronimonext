@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<!-- $Revision: 590482 $ $Date: 2007-10-31 08:51:54 +1100 (Wed, 31 Oct 2007) $ -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.apache.geronimo.plugins</groupId>
+        <artifactId>openejb</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>org.apache.geronimo.modules</groupId>
+    <artifactId>geronimo-openejb-clustering-builder-wadi</artifactId>
+    <packaging>bundle</packaging>
+    <name>Geronimo Plugins, OpenEJB :: Clustering Builder for WADI</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.geronimo.configs</groupId>
+            <artifactId>openejb-deployer</artifactId>
+            <version>${project.version}</version>
+            <type>car</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.configs</groupId>
+            <artifactId>openejb-clustering-wadi</artifactId>
+            <version>${project.version}</version>
+            <type>car</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>xmlbeans-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <!--<_versionpolicy>[$(version;==;$(@)),$(version;+;$(@)))</_versionpolicy>-->
+                        <Import-Package>
+                            org.apache.geronimo.deployment.xbeans.impl,
+                            org.apache.geronimo.deployment.javabean.xbeans.impl,
+                            org.apache.geronimo.deployment.xbeans,
+                            org.apache.geronimo.deployment.javabean.xbeans,
+                            org.apache.geronimo.deployment.dconfigbean,
+                            org.apache.geronimo.deployment.service,
+                            org.apache.geronimo.deployment.service.jsr88,
+                            org.apache.geronimo.openejb.deployment,
+                            org.apache.geronimo.openejb.xbeans.ejbjar,
+                            org.apache.geronimo.openejb.xbeans.ejbjar.impl,
+                            org.apache.geronimo.xbeans.geronimo.j2ee,
+                            org.apache.geronimo.xbeans.geronimo.j2ee.impl,
+                            org.apache.geronimo.j2ee.deployment,
+                            org.apache.geronimo.j2ee.deployment.annotation,
+                            org.apache.geronimo.j2ee.jsr88,
+                            org.apache.geronimo.xbeans.geronimo.naming,
+                            org.apache.geronimo.xbeans.geronimo.naming.impl,
+                            org.apache.geronimo.naming.deployment,
+                            org.apache.geronimo.naming.deployment.jsr88,
+                            org.apache.xmlbeans.impl.schema;version="2.4",
+                            *
+                        </Import-Package>
+                        <Export-Package>
+                            org.apache.geronimo.openejb.deployment.cluster,
+                            org.apache.geronimo.xbeans.openejb.cluster.wadi,
+                            org.apache.geronimo.xbeans.openejb.cluster.wadi.impl
+                        </Export-Package>
+                        <_exportcontents>schemaorg_apache_xmlbeans*</_exportcontents>
+                        <DynamicImport-Package>schemaorg_apache_xmlbeans.*</DynamicImport-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

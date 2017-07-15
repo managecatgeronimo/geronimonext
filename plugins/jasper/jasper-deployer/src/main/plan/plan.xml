@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<!-- $Rev$ $Date$ -->
+
+<module xmlns="http://geronimo.apache.org/xml/ns/deployment-${geronimoSchemaVersion}">
+
+    <gbean name="JspModuleBuilderExtension" class="org.apache.geronimo.jasper.deployment.JspModuleBuilderExtension">
+        <attribute name="excludedListenerNames">org.apache.myfaces.webapp.StartupServletContextListener</attribute>
+        <reference name="NamingBuilders">
+            <name>NamingBuilders</name>
+        </reference>
+        <xml-attribute name="defaultJspServlet">
+            <web-app xmlns="http://java.sun.com/xml/ns/javaee">
+
+                <servlet>
+                     <servlet-name>jsp</servlet-name>
+                     <servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+                     <init-param>
+                         <param-name>development</param-name>
+                         <param-value>false</param-value>
+                     </init-param>
+                     <init-param>
+                         <param-name>trimSpaces</param-name>
+                         <param-value>false</param-value>
+                     </init-param>
+                     <init-param>
+                         <param-name>fork</param-name>
+                         <param-value>false</param-value>
+                     </init-param>
+                     <init-param>
+                         <param-name>logVerbosityLevel</param-name>
+                         <param-value>DEBUG</param-value>
+                     </init-param>
+                     <init-param>
+                         <param-name>xpoweredBy</param-name>
+                         <param-value>false</param-value>
+                     </init-param>
+                     <init-param>
+                         <param-name>engineOptionsClass</param-name>
+                         <param-value>org.apache.geronimo.jasper.JspServletOptions</param-value>
+                     </init-param>
+                     <load-on-startup>0</load-on-startup>
+                 </servlet>
+                 <servlet-mapping>
+                     <servlet-name>jsp</servlet-name>
+                     <url-pattern>*.jsp</url-pattern>
+                     <url-pattern>*.jspf</url-pattern>
+                     <url-pattern>*.jspx</url-pattern>
+                     <url-pattern>*.xsp</url-pattern>
+                 </servlet-mapping>
+
+            </web-app>
+        </xml-attribute>
+    </gbean>
+
+</module>

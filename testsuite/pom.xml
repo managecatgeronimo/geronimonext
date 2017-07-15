@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+
+<!-- $Rev$ $Date$ -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.apache.geronimo</groupId>
+        <artifactId>geronimo</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>org.apache.geronimo.testsuite</groupId>
+    <artifactId>testsuite</artifactId>
+    <name>Geronimo TestSuite</name>
+    <packaging>pom</packaging>
+
+    <description>
+        Geronimo integration testsuite.
+    </description>
+
+    <!--
+    NOTE: Override the following on the cmdline to only run specific
+          testsuite buckets.
+
+        *** To run all tests:
+          Against the default Jetty assembly -
+            mvn clean install -Pit
+
+          Against the Tomcat assembly - 
+            mvn clean install -Pit -DassemblyId=tomcat
+
+          Against the pre-installed assembly -
+            mvn clean install -Pit -DgeronimoHome=<Path to Geronimo Home>
+          
+          Against an already running server -
+            mvn clean install -Pit-manual
+
+        *** To run one of testsuites:         
+          Against the default Jetty assembly -
+            cd console-testsuite
+            mvn clean install -Pit
+
+          Against the pre-installed assembly -
+            cd console-testsuite
+            mvn clean install -Pit -DgeronimoHome=<Path to Geronimo Home>
+
+          Against an already running server -
+            cd console-testsuite
+            mvn clean install -Pit-manual
+
+        *** To only run one test backet:
+          Against an already running server-
+            cd console-testsuite/advanced
+            mvn clean install -Pchild
+
+    -->
+
+    <properties>
+        <!--
+        NOTE: The default assembly is jetty, so exclude any tomcat tests by
+              default. Profiles below will set this based on the assemblyId.
+        -->
+        <shittyTestExcludes>**/*tomcat*/pom.xml</shittyTestExcludes>
+
+        <!--
+        NOTE: Override the following on the cmdline to only run specific
+              testsuite buckets.  To only run console-testsuite/advanced -
+                mvn -DshittyTestIncludes=console-testsuite/advanced/pom.xml
+              or
+                mvn install -Dtests=console-testsuite/advanced
+        -->
+        <shittyTestIncludes>*/*/pom.xml</shittyTestIncludes>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.geronimo.testsupport</groupId>
+            <artifactId>testsupport-selenium</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonatype.gossip</groupId>
+            <artifactId>gossip</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-ear-plugin</artifactId>
+                    <configuration>
+                        <resourcesDir>${project.build.outputDirectory}</resourcesDir>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <configuration>
+                        <webXml>${project.basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
+                        <webResources combine.self="override">
+                            <resource>
+                                <directory>${project.basedir}/src/main/webapp</directory>
+                                <filtering>true</filtering>
+                            </resource>
+                            <resource>
+                                <directory>${project.build.outputDirectory}</directory>
+                                <includes>
+                                    <include>META-INF/LICENSE*</include>
+                                    <include>META-INF/NOTICE*</include>
+                                    <include>META-INF/DISCLAIMER*</include>
+                                </includes>
+                            </resource>
+                        </webResources>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>selenium-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>start-selenium</id>
+                            <phase>pre-integration-test</phase>
+                            <goals>
+                                <goal>start-server</goal>
+                            </goals>
+                            <configuration>
+                                <logOutput>true</logOutput>
+                                <background>true</background>
+                                <systemProperties>
+                                    <property>
+                                        <name>browser</name>
+                                        <value>${browser}</value>
+                                    </property>
+                                </systemProperties>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>stop-selenium</id>
+                            <phase>post-integration-test</phase>
+                            <goals>
+                                <goal>stop-server</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>2.5</version>
+                    <configuration>
+                        <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                        <forkMode>once</forkMode>
+                        <forkedProcessTimeoutInSeconds>300</forkedProcessTimeoutInSeconds>
+                        <argLine>-enableassertions</argLine>
+                        <failIfNoTests>false</failIfNoTests>
+                        <workingDirectory>${project.build.directory}</workingDirectory>
+                        <testFailureIgnore>true</testFailureIgnore>
+                        <includes>
+                            <include>**/Test*.java</include>
+                            <include>**/*Test.java</include>
+                        </includes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>integration-test</id>
+                            <goals>
+                                <goal>integration-test</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>verify</id>
+                            <phase>install</phase>
+                            <goals>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>ianal-maven-plugin</artifactId>
+                <configuration>
+                    <!-- Don't bother checking legal muck here, we never publish them. -->
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <!-- Add this so that this should not get deployed during release plugin processing-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <!--
+                 geronimo-property-plugin sets bootClassPath property
+                 which is used by maven-compiler-plugin and
+                 maven-surefire-plugin.
+            -->
+            <plugin>
+                <groupId>org.apache.geronimo.buildsupport</groupId>
+                <artifactId>geronimo-property-plugin</artifactId>
+                <configuration>
+                    <propertyName>bootClassPath</propertyName>
+                    <propertyValuePrefix>-Xbootclasspath/p:</propertyValuePrefix>
+                    <classpath>
+                        <dependency>
+                            <groupId>org.apache.geronimo.specs</groupId>
+                            <artifactId>geronimo-annotation_1.1_spec</artifactId>
+                            <version>1.0.1</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.apache.geronimo.specs</groupId>
+                            <artifactId>geronimo-jaxws_2.2_spec</artifactId>
+                            <version>1.0</version>
+                        </dependency>
+                    </classpath>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <compilerArgument>${bootClassPath}</compilerArgument>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <site>
+            <id>website</id>
+            <url>scp://people.apache.org/www/people.apache.org/builds/geronimo/server/testsuite/${buildNumber}</url>
+        </site>
+    </distributionManagement>
+
+    <modules>
+        <module>commands-testsuite</module>
+        <module>corba-testsuite</module>
+        <module>enterprise-testsuite</module>
+        <module>console-testsuite</module>
+        <module>deployment-testsuite</module>
+        <module>security-testsuite</module>
+        <module>web-testsuite</module>
+        <module>webservices-testsuite</module>
+        <module>aries-testsuite</module>
+        <module>javaee6-testsuite</module>
+    </modules>
+
+    <profiles>
+        <profile>
+            <id>it</id>
+            <activation>
+                <property>
+                    <name>it</name>
+                    <value>auto</value>
+                </property>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.geronimo.buildsupport</groupId>
+                            <artifactId>geronimo-maven-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>start-geronimo</id>
+                                    <phase>pre-integration-test</phase>
+                                    <goals>
+                                        <goal>start-server</goal>
+                                    </goals>
+                                    <configuration>
+                                        <logOutput>true</logOutput>
+                                        <background>true</background>
+                                        <verifyTimeout>300</verifyTimeout>
+                                        <refresh>true</refresh>
+                                        <optionSets>
+                                            <optionSet>
+                                                <id>default</id>
+                                                <options>
+                                                    <option>-XX:MaxPermSize=160m</option>
+                                                </options>
+                                            </optionSet>
+                                        </optionSets>
+                                    </configuration>
+                                </execution>
+                                <execution>
+                                    <id>stop-geronimo</id>
+                                    <phase>verify</phase>
+                                    <goals>
+                                        <goal>stop-server</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+
+        </profile>
+
+        <profile>
+            <id>it-manual</id>
+            <activation>
+                <property>
+                    <name>it</name>
+                    <value>manual</value>
+                </property>
+            </activation>
+            <build>
+            </build>
+        </profile>
+
+        <profile>
+            <id>headless</id>
+
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>selenium-maven-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>xvfb</id>
+                                    <phase>process-test-sources</phase>
+                                    <goals>
+                                        <goal>xvfb</goal>
+                                    </goals>
+                                    <configuration> 
+                                        <reuse>true</reuse>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <profile>
+            <id>firefox</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <browser>*firefox</browser>
+            </properties>
+        </profile>
+        <profile>
+            <id>iexplore</id>
+            <properties>
+                <browser>*iexplore</browser>
+            </properties>
+        </profile>
+        <profile>
+            <id>otherbrowser</id>
+            <properties>
+                <browser>${browserPath}</browser>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>maven-3</id>
+            <activation>
+                <file>
+                    <!--  This employs that the basedir expression is only recognized by Maven 3.x (see MNG-2363) -->
+                    <exists>${basedir}</exists>
+                </file>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-site-plugin</artifactId>
+                            <version>3.0-beta-2</version>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+                <plugins>
+                    <plugin>
+                        <!-- try (unsuccessfully) to get failsafe reports in maven 3 -->
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-site-plugin</artifactId>
+                        <configuration>
+                            <reportPlugins>
+                                <plugin>
+                                    <groupId>org.apache.maven.plugins</groupId>
+                                    <artifactId>maven-surefire-report-plugin</artifactId>
+                                    <version>2.6</version>
+                                    <reports>
+                                        <report>report-only</report>
+                                    </reports>
+                                    <configuration>
+                                        <aggregate>true</aggregate>
+                                        <outputName>failsafe-report</outputName>
+                                        <reportsDirectories>
+                                            <reportsDirectory>${project.basedir}/target/failsafe-reports</reportsDirectory>
+                                            <!--<reportsDirectory>target/failsafe-reports</reportsDirectory>-->
+                                        </reportsDirectories>
+                                    </configuration>
+                                    <!--<reportSets>-->
+                                    <!--<reportSet>-->
+                                    <!--<id>integration-tests</id>-->
+                                    <!--<reports>-->
+                                    <!--<report>report-only</report>-->
+                                    <!--</reports>-->
+                                    <!--<configuration>-->
+                                    <!--<aggregate>true</aggregate>-->
+                                    <!--<outputName>failsafe-report</outputName>-->
+                                    <!--<reportsDirectories>-->
+                                    <!--<reportsDirectory>${project.basedir}/target/failsafe-reports</reportsDirectory>-->
+                                    <!--&lt;!&ndash;<reportsDirectory>target/failsafe-reports</reportsDirectory>&ndash;&gt;-->
+                                    <!--</reportsDirectories>-->
+                                    <!--</configuration>-->
+                                    <!--</reportSet>-->
+                                    <!--</reportSets>-->
+                                </plugin>
+                            </reportPlugins>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-descriptor</id>
+                                <goals>
+                                    <goal>attach-descriptor</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
+</project>

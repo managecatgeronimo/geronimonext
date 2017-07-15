@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<!-- $Rev$ $Date$ -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.apache.geronimo.plugins</groupId>
+        <artifactId>j2ee</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+    </parent>
+    
+    <groupId>org.apache.geronimo.configs</groupId>
+    <artifactId>j2ee-deployer</artifactId>
+    <name>Geronimo Plugins, J2EE :: Deployer</name>
+    <packaging>car</packaging>
+
+    <description>
+        Basic JavaEE deployer functionality including the ear deployer.
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.karaf.features</groupId>
+            <artifactId>framework</artifactId>
+            <type>kar</type>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.karaf.features</groupId>
+            <artifactId>standard</artifactId>
+            <classifier>features</classifier>
+            <type>xml</type>
+            <scope>runtime</scope>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.karaf.features</groupId>
+            <artifactId>enterprise</artifactId>
+            <classifier>features</classifier>
+            <type>xml</type>
+            <scope>runtime</scope>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.framework.features</groupId>
+            <artifactId>framework</artifactId>
+            <version>${project.version}</version>
+            <type>kar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.framework.features</groupId>
+            <artifactId>org.apache.geronimo.javaee-specs</artifactId>
+            <version>${project.version}</version>
+            <classifier>features</classifier>
+            <type>xml</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.configs</groupId>
+            <artifactId>j2ee-server</artifactId>
+            <version>${project.version}</version>
+            <type>car</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.framework</groupId>
+            <artifactId>j2ee-system</artifactId>
+            <version>${project.version}</version>
+            <type>car</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.framework</groupId>
+            <artifactId>server-security-config</artifactId>
+            <version>${project.version}</version>
+            <type>car</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.modules</groupId>
+            <artifactId>geronimo-j2ee-schema</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.apache.geronimo.schema</groupId>-->
+            <!--<artifactId>geronimo-schema-javaee_6</artifactId>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+          <!--<groupId>org.apache.geronimo.schema</groupId>-->
+          <!--<artifactId>geronimo-schema-jee_5</artifactId>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>org.apache.geronimo.schema</groupId>-->
+            <!--<artifactId>geronimo-schema-j2ee_1.4</artifactId>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>org.apache.geronimo.modules</groupId>-->
+            <!--<artifactId>geronimo-client</artifactId>-->
+            <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>org.apache.geronimo.modules</groupId>
+            <artifactId>geronimo-naming-builder</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.modules</groupId>
+            <artifactId>geronimo-j2ee-builder</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.modules</groupId>
+            <artifactId>geronimo-web-2.5-builder</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.modules</groupId>
+            <artifactId>geronimo-test-ddbean</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.modules</groupId>
+            <artifactId>geronimo-security-builder</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.xbean</groupId>
+            <artifactId>xbean-finder</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/resources/schema</outputDirectory>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.apache.geronimo.modules</groupId>
+                                    <artifactId>geronimo-j2ee-builder</artifactId>
+                                    <version>${project.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.geronimo.modules</groupId>
+                                    <artifactId>geronimo-naming-builder</artifactId>
+                                    <version>${project.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.geronimo.modules</groupId>
+                                    <artifactId>geronimo-security-builder</artifactId>
+                                    <version>${project.version}</version>
+                                </artifactItem>
+                            </artifactItems>
+                            <includes>**/*.xsd</includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.geronimo.buildsupport</groupId>
+                <artifactId>car-maven-plugin</artifactId>
+                <configuration>
+                    <category>JavaEE deployment</category>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.geronimo.configs</groupId>
+                            <artifactId>j2ee-server</artifactId>
+                            <type>car</type>
+                            <import>classes</import>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.apache.geronimo.framework</groupId>
+                            <artifactId>server-security-config</artifactId>
+                            <type>car</type>
+                            <import>classes</import>
+                        </dependency>
+                    </dependencies>
+
+                    <instance>
+                        <plugin-artifact>
+                            <config-xml-content>
+                                <gbean name="WebBuilder">
+                                    <attribute name="defaultNamespace">http://geronimo.apache.org/xml/ns/j2ee/web/jetty-2.0</attribute>
+                                </gbean>
+                                <gbean name="EnvironmentEntryBuilder">
+                                    <attribute name="eeNamespaces">http://java.sun.com/xml/ns/j2ee,http://java.sun.com/xml/ns/javaee</attribute>
+                                </gbean>
+                            </config-xml-content>
+                            <config-xml-content server="offline">
+                                <gbean name="WebBuilder">
+                                    <attribute name="defaultNamespace">http://geronimo.apache.org/xml/ns/j2ee/web/jetty-2.0</attribute>
+                                </gbean>
+                                <gbean name="EnvironmentEntryBuilder">
+                                    <attribute name="eeNamespaces">http://java.sun.com/xml/ns/j2ee,http://java.sun.com/xml/ns/javaee</attribute>
+                                </gbean>
+                            </config-xml-content>
+                            <copy-file dest-dir="schema">schema/schemaorg_apache_xmlbeans/src/</copy-file>
+                        </plugin-artifact>
+                    </instance>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+    
+       http://www.apache.org/licenses/LICENSE-2.0
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<!-- $Rev$ $Date$ -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>org.apache.geronimo.framework.assemblies</groupId>
+        <artifactId>assemblies</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>org.apache.geronimo.assemblies</groupId>
+    <artifactId>geronimo-framework</artifactId>
+    <name>Geronimo Assemblies :: Framework</name>
+    <packaging>server-assembly</packaging>
+    
+    <description>
+        A minimal Geronimo server (Little-G) framework assembly.
+    </description>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.karaf.features</groupId>
+            <artifactId>framework</artifactId>
+            <type>kar</type>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.karaf.features</groupId>
+            <artifactId>standard</artifactId>
+            <classifier>features</classifier>
+            <type>xml</type>
+            <scope>runtime</scope>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.karaf.features</groupId>
+            <artifactId>enterprise</artifactId>
+            <classifier>features</classifier>
+            <type>xml</type>
+            <scope>runtime</scope>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.framework.features</groupId>
+            <artifactId>framework</artifactId>
+            <version>${project.version}</version>
+            <type>kar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.framework.plugingroups</groupId>
+            <artifactId>framework</artifactId>
+            <version>${project.version}</version>
+            <type>car</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.geronimo.buildsupport</groupId>
+                    <artifactId>geronimo-maven-plugin</artifactId>
+                    <version>${project.version}</version>
+
+                    <configuration>
+                        <!--<assemblies>-->
+                            <!--<assembly>-->
+                                <!--<id>activemq</id>-->
+                                <!--<groupId>org.apache.geronimo.plugins</groupId>-->
+                                <!--<artifactId>activemq-server</artifactId>-->
+                                <!--<version>${geronimoVersion}</version>-->
+                                <!--<classifier>bin</classifier>-->
+                                <!--<type>zip</type>-->
+                            <!--</assembly>-->
+                        <!--</assemblies>-->
+
+                        <!--<defaultAssemblyId>activemq</defaultAssemblyId>-->
+                       <assemblyArchive>${project.build.directory}/${project.artifactId}-${project.version}-bin.zip</assemblyArchive>
+                        <optionSets>
+                            <optionSet>
+                                <id>morememory</id>
+                                <options>
+                                    <option>-Xmx512m</option>
+                                    <option>-XX:MaxPermSize=128m</option>
+                                </options>
+                            </optionSet>
+
+                            <optionSet>
+                                <id>debug</id>
+                                <options>
+                                    <option>-Xdebug</option>
+                                    <option>-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n</option>
+                                </options>
+                            </optionSet>
+                        </optionSets>
+                    </configuration>
+                    <executions>
+                         <execution>
+                             <id>start</id>
+                             <phase>pre-integration-test</phase>
+                             <goals>
+                                 <goal>start-server</goal>
+                             </goals>
+                             <configuration>
+                                 <assemblyId>${it-server}</assemblyId>
+                                 <logOutput>true</logOutput>
+                                 <background>true</background>
+                                 <verifyTimeout>300</verifyTimeout>
+                                 <refresh>true</refresh>
+                                 <optionSets>
+                                     <optionSet>
+                                         <id>default</id>
+                                         <options>
+                                            <option>-XX:MaxPermSize=128m</option>
+                                         </options>
+                                     </optionSet>
+
+                                     <optionSet>
+                                          <id>morememory</id>
+                                          <options>
+                                              <option>-Xmx512m</option>
+                                              <option>-XX:MaxPermSize=128m</option>
+                                          </options>
+                                      </optionSet>
+
+                                      <optionSet>
+                                          <id>debug</id>
+                                          <options>
+                                              <option>-Xdebug</option>
+                                              <option>-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n</option>
+                                          </options>
+                                      </optionSet>
+                                 </optionSets>
+                             </configuration>
+                         </execution>
+                         <!--<execution>-->
+                             <!--<id>install-plugin</id>-->
+                             <!--<phase>install</phase>-->
+                             <!--<goals>-->
+                                 <!--<goal>install-plugin</goal>-->
+                             <!--</goals>-->
+                             <!--<configuration>-->
+                                 <!--<defaultGeronimoRepository>http://geronimo.apache.org/plugins/geronimo-${geronimoVersion}/</defaultGeronimoRepository>-->
+                             <!--</configuration>-->
+                         <!--</execution>-->
+                         <execution>
+                             <id>stop</id>
+                             <phase>install</phase>
+                             <goals>
+                                 <goal>stop-server</goal>
+                             </goals>
+                         </execution>
+                     </executions>
+                </plugin>
+                
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.geronimo.buildsupport</groupId>
+                <artifactId>car-maven-plugin</artifactId>
+                <configuration>
+                    <startupFeatures>
+                        <feature>standard</feature>
+                        <feature>management</feature>
+                        <feature>ssh</feature>
+                        <feature>config</feature>
+                        <feature>kar</feature>
+                        <feature>obr</feature>
+                        <feature>framework</feature>
+                        <feature>aries-annotation</feature>
+                    </startupFeatures>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>it</id>
+            <!--<properties>-->
+            <!--<it-server>jetty</it-server>-->
+            <!--</properties>-->
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.geronimo.buildsupport</groupId>
+                        <artifactId>geronimo-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    
+</project>

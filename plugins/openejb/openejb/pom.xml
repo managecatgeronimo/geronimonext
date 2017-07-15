@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<!-- $Rev$ $Date$ -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.apache.geronimo.plugins</groupId>
+        <artifactId>openejb</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>org.apache.geronimo.configs</groupId>
+    <artifactId>openejb</artifactId>
+    <name>Geronimo Plugins, OpenEJB :: OpenEJB</name>
+    <packaging>car</packaging>
+
+    <description>Geronimo integration of the OpenEJB  ejb container.</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.karaf.features</groupId>
+            <artifactId>framework</artifactId>
+            <type>kar</type>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.karaf.features</groupId>
+            <artifactId>standard</artifactId>
+            <classifier>features</classifier>
+            <type>xml</type>
+            <scope>runtime</scope>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.karaf.features</groupId>
+            <artifactId>enterprise</artifactId>
+            <classifier>features</classifier>
+            <type>xml</type>
+            <scope>runtime</scope>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.framework.features</groupId>
+            <artifactId>framework</artifactId>
+            <version>${project.version}</version>
+            <type>kar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.framework.features</groupId>
+            <artifactId>org.apache.geronimo.javaee-specs</artifactId>
+            <version>${project.version}</version>
+            <classifier>features</classifier>
+            <type>xml</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-annotation_1.1_spec</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.geronimo.configs</groupId>
+            <artifactId>j2ee-server</artifactId>
+            <version>${project.version}</version>
+            <type>car</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.framework</groupId>
+            <artifactId>server-security-config</artifactId>
+            <version>${project.version}</version>
+            <type>car</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.configs</groupId>
+            <artifactId>transaction-1_6</artifactId>
+            <version>${project.version}</version>
+            <type>car</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.configs</groupId>
+            <artifactId>system-database</artifactId>
+            <version>${project.version}</version>
+            <type>car</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.bundles</groupId>
+            <artifactId>myfaces-bundle</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jaxws_2.2_spec</artifactId>
+       </dependency>
+       
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jaxrs_1.1_spec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-servlet_3.0_spec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jsp_2.2_spec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.bundles</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.servicemix.bundles</groupId>
+            <artifactId>org.apache.servicemix.bundles.commons-codec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.bundles</groupId>
+            <artifactId>commons-digester</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.bundles</groupId>
+            <artifactId>commons-discovery</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.servicemix.bundles</groupId>
+            <artifactId>org.apache.servicemix.bundles.dom4j</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.servicemix.bundles</groupId>
+            <artifactId>org.apache.servicemix.bundles.javassist</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.geronimo.javamail</groupId>
+            <artifactId>geronimo-javamail_1.4_mail</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.openejb</groupId>
+            <artifactId>openejb-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.openejb</groupId>
+            <artifactId>openejb-client</artifactId>
+        </dependency>
+        
+        <dependency>
+            <!-- for openejb embedded support-->
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+        </dependency>
+        
+        <dependency>
+            <!-- for openejb embedded support-->
+            <groupId>commons-pool</groupId>
+            <artifactId>commons-pool</artifactId>
+        </dependency>        
+
+        <dependency>
+            <groupId>org.apache.geronimo.modules</groupId>
+            <artifactId>geronimo-openejb</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.geronimo.configs</groupId>
+            <artifactId>openjpa2</artifactId>
+            <type>car</type>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.yoko</groupId>
+            <artifactId>yoko-spec-corba</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.xbean</groupId>
+            <artifactId>xbean-finder</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.xbean</groupId>
+            <artifactId>xbean-asm-shaded</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.swizzle</groupId>
+            <artifactId>swizzle-stream</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.servicemix.bundles</groupId>
+            <artifactId>org.apache.servicemix.bundles.quartz</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>            
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.geronimo.buildsupport</groupId>
+                <artifactId>car-maven-plugin</artifactId>
+                <configuration>
+                    <category>EJB Container</category>
+                    <instance>
+                        <plugin-artifact>
+                            <config-xml-content>
+                                <gbean name="EJBNetworkService">
+                                    <attribute name="port">${OpenEJBPort + PortOffset}</attribute>
+                                    <attribute name="host">${ServerHostname}</attribute>
+                                    <attribute name="multicastHost">${MulticastDiscoveryAddress}</attribute>
+                                    <attribute name="multicastPort">${MulticastDiscoveryPort}</attribute>
+                                    <attribute name="multipointHost">${MultipointHost}</attribute>
+                                    <attribute name="multipointPort">${MultipointPort + PortOffset}</attribute>
+                                    <attribute name="multipointServers">${MultipointServers}</attribute>                                    
+                                    <attribute name="multipointEnabled">${MultipointEnabled}</attribute>
+                                    <attribute name="multicastEnabled">${MulticastEnabled}</attribute>
+                                    <attribute name="clusterName">${ClusterName}</attribute>
+                                </gbean>
+                                <gbean name="DefaultStatefulContainer">
+                                    <attribute name="accessTimeout">30</attribute>
+                                    <attribute name="timeOut">20</attribute>
+                                    <attribute name="capacity">1000</attribute>
+                                    <attribute name="bulkPassivate">100</attribute>
+                                </gbean>
+                                <gbean name="DefaultSingletonContainer">
+                                    <attribute name="accessTimeout">30</attribute>
+                                </gbean>
+                                <gbean name="DefaultBMPContainer">
+                                    <attribute name="poolSize">10</attribute>
+                                </gbean>
+                                <gbean name="DefaultStatelessContainer">
+                                    <attribute name="accessTimeout">30</attribute>
+                                    <attribute name="closeTimeout">5</attribute>
+                                    <attribute name="maxSize">10</attribute>
+                                    <attribute name="minSize">0</attribute>
+                                    <attribute name="strictPooling">true</attribute>
+                                    <attribute name="idleTimeout">0</attribute>
+                                </gbean>
+                            </config-xml-content>
+                            <config-substitution key="OpenEJBPort">4201</config-substitution>
+                            <config-substitution key="MulticastDiscoveryAddress">239.255.3.2</config-substitution>
+                            <config-substitution key="MulticastDiscoveryPort">6142</config-substitution>
+                            <config-substitution key="MultipointHost">0.0.0.0</config-substitution>
+                            <config-substitution key="MultipointPort">4212</config-substitution>                            
+                            <config-substitution key="MultipointEnabled">false</config-substitution>
+                            <config-substitution key="MulticastEnabled">false</config-substitution>
+                            <config-substitution key="MultipointServers" />
+                            <config-substitution key="ClusterName">cluster1</config-substitution>                            
+                            <copy-file relative-to="geronimo" dest-dir="schema">schema/</copy-file>
+                        </plugin-artifact>
+                    </instance>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

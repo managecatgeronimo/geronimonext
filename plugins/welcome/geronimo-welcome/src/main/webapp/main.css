@@ -1,0 +1,183 @@
+/*======================================================================
+*   Licensed to the Apache Software Foundation (ASF) under one or more
+*   contributor license agreements.  See the NOTICE file distributed with
+*   this work for additional information regarding copyright ownership.
+*   The ASF licenses this file to You under the Apache License, Version 2.0
+*   (the "License"); you may not use this file except in compliance with
+*   the License.  You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+*   Unless required by applicable law or agreed to in writing, software
+*   distributed under the License is distributed on an "AS IS" BASIS,
+*   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+*   See the License for the specific language governing permissions and
+*   limitations under the License.
+======================================================================*/
+
+/** Dojo claro style Override : Start **/
+.claro .dijitLeaf {
+    display: none;
+}
+
+.claro .dijitTreeNodeSelected {
+    font-size: 12px;
+}
+
+.claro .dijitTreeLabel {
+    font-size: 12px;
+}
+/** Dojo claro style Override : End **/
+
+body
+{
+    font-size: 12px;
+    font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
+}
+
+td
+{
+    font-size: 12px;
+    font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
+}
+
+a:link, 
+a:visited {
+    color: #204486;
+}
+
+a:hover {
+    color: #CF820A;
+}
+
+
+.Hidden {
+    visibility: hidden;
+    height: 0px;
+    line-height: 0px;
+    display: none;
+}
+
+.Selection {
+    font-size: 12px;
+    font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
+}
+
+.InputField {
+    width: 150px;
+}
+
+.TableLine {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #c3e2fd;	
+    background-color: #FFFFFF;
+}
+
+.DarkTableLine {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #769dc0;	
+    background-color: #FFFFFF;
+}
+
+.BlankTableLine {
+    border: 0px;
+    padding: 0;
+}
+
+.LightBackground
+{
+    background-color: #FFFFFF;
+    padding: 1px;
+    color:#000000;
+}
+
+.MediumBackground
+{
+    background-color: #F2F2F2;
+    padding: 1px;
+    color:#000000;
+}
+
+.DarkBackground, 
+.DarkBackground a:link, 
+.DarkBackground a:visited,
+.DarkBackground a:hover
+{
+    background-image:url("images/table-head-dark-bg_1x24.png");
+    background-repeat: repeat-x;
+    
+    padding: 3px;
+    line-height: 18px;
+    color: #204486;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
+}
+
+.DarkBackground th
+{
+    padding: 3px;
+    line-height: 18px;
+    color: #204486;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
+}
+
+.ReallyDarkBackground
+{
+    background-image:url("images/table-head-really-dark-bg_1x24.png");
+    background-repeat: repeat-x;
+    
+    padding: 3px;
+    line-height: 18px;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
+}
+
+.ReallyDarkBackground th
+{
+    padding: 3px;
+    line-height: 18px;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
+}
+
+/** Accessbility : Start **/
+.access
+{
+    display: none;
+    position: absolute;
+    left: -3000px;
+    width: 500px;
+}
+
+.skip a {
+    position: absolute;
+    overflow: hidden;
+    width: 0px;
+    height: 0px;
+}
+
+.skip a:active, .skip a:focus {
+    position: absolute;
+    overflow: visible;
+    width: 135px;
+    height: auto;
+    background-color: #FFFFFF;
+    color: #000000;
+    top: 75px;
+    left: 5px;
+    z-index:1000;
+    padding: 5px;
+    border: 2px solid #000000;
+    font-weight: bold;
+}
+
+/** Accessbility : End **/
