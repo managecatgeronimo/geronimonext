@@ -1,7 +1,7 @@
 ======================================================
 Geronimo Next
 
-Experimental for version of the Apache Geronimo Java EE Server.
+Experimental forked version of the Apache Geronimo Java EE Server.
 ======================================================
 Apache Geronimo v3.0-M1
 
